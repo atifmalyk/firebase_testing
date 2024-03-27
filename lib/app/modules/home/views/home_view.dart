@@ -10,25 +10,39 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeView'),
-        centerTitle: true,
-        actions: [
-          IconButton(icon: Icon(Icons.logout), onPressed: () {controller.logout();}),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed(Routes.ADD_POST);
-        },
-        child: Icon(Icons.add),
-      ),
-      body: const Center(
-        child: Text(
-          'HomeView is working',
-          style: TextStyle(fontSize: 20),
+        appBar: AppBar(
+          title: const Text('HomeView'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () {
+                  controller.logout();
+                }),
+          ],
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Get.toNamed(Routes.ADD_POST);
+          },
+          child: Icon(Icons.add),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: controller.dataList.length,
+                  itemBuilder: (context, index) {
+                    var item = controller.dataList[index];
+                    return ListTile(
+                      title: Text(item['title']),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }

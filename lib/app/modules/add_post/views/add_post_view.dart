@@ -19,6 +19,7 @@ class AddPostView extends GetView<AddPostController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
+              controller: controller.textEditingController,
               maxLines: 3,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -29,6 +30,7 @@ class AddPostView extends GetView<AddPostController> {
             ),
             SizedBox(height: 20,),
             ElevatedButton(onPressed: (){
+              controller.addPost();
 
             }, child: Text("Add Post"))
           ],
