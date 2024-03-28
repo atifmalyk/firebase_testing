@@ -27,22 +27,52 @@ class HomeView extends GetView<HomeController> {
           },
           child: Icon(Icons.add),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Obx(
-                () => ListView.builder(
-                  itemCount: controller.dataList.length,
-                  itemBuilder: (context, index) {
-                    var item = controller.dataList[index];
-                    return ListTile(
-                      title: Text(item['title']),
-                    );
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+
+                  ),
+                  onChanged: (value){
+                    controller.searchText.value=value;
+                    controller.dataList.refresh();
                   },
                 ),
+
               ),
-            ),
-          ],
+              Expanded(
+                child: Obx(
+                  () => ListView.builder(
+                    itemCount: controller.dataList.length,
+                    itemBuilder: (context, index) {
+                      var item = controller.dataList[index];
+                      if(controller.searchText.value.isEmpty){
+                        return ListTile(
+                          title: Text(item['title']),
+                          subtitle: Text(item['id']),
+                        );
+                      }
+                      else if(item['title'].toString().toLowerCase().contains(controller.searchText.value)){
+                        return   ListTile(
+                          title: Text(item['title']),
+                          subtitle: Text(item['id']),
+                        );
+                      }
+                      else {
+                        return Container();
+                      }
+
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ));
   }
 }
