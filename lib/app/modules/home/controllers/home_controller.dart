@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/utils.dart';
@@ -14,12 +15,14 @@ class HomeController extends GetxController {
   late FirebaseAuth auth;
   var dataList = [].obs;
   late final TextEditingController searchController;
+  late final TextEditingController editingController;
 
-  var searchText=''.obs;
+  var searchText = ''.obs;
   @override
   void onInit() {
     super.onInit();
-    searchController=TextEditingController();
+    searchController = TextEditingController();
+    editingController = TextEditingController();
     auth = FirebaseAuth.instance;
     listenForUpdates();
   }
@@ -45,9 +48,36 @@ class HomeController extends GetxController {
       print("Failed to listen for updates: $error");
     });
   }
-void filterList(value){
 
-}
+  void showDialogue(String title, id, value) {
+    editingController.text = title;
+
+    Get.defaultDialog(
+        title: value == "update" ? "Update Record" : "Delete Record",
+        textCancel: "cancel",
+        textConfirm: "confirm",
+        onCancel: () {
+          // Get.back();
+        },
+        content: value=="update"?TextField(
+          controller: editingController,
+        ):Container(),
+        onConfirm: () {
+          if (value == "update") {
+            ref
+                .child(id)
+                .update({'title': editingController.text}).then((value) {
+              Utils().getErrorMessage("Successfully updated");
+            }).onError((error, stackTrace) {
+              print(error.toString());
+            });
+          }
+          else{
+            ref.child(id).remove();
+          }
+          Get.back();
+        });
+  }
 
   void logout() {
     auth.signOut().then((value) {

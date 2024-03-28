@@ -36,14 +36,12 @@ class HomeView extends GetView<HomeController> {
                 child: TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-
                   ),
-                  onChanged: (value){
-                    controller.searchText.value=value;
+                  onChanged: (value) {
+                    controller.searchText.value = value;
                     controller.dataList.refresh();
                   },
                 ),
-
               ),
               Expanded(
                 child: Obx(
@@ -51,22 +49,68 @@ class HomeView extends GetView<HomeController> {
                     itemCount: controller.dataList.length,
                     itemBuilder: (context, index) {
                       var item = controller.dataList[index];
-                      if(controller.searchText.value.isEmpty){
+                      if (controller.searchText.value.isEmpty) {
                         return ListTile(
                           title: Text(item['title']),
                           subtitle: Text(item['id']),
+                          trailing: PopupMenuButton(
+                              itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                        child: (ListTile(
+                                      leading: const Icon(Icons.edit),
+                                      title: const Text("Edit"),
+                                      onTap: () {
+                                        Get.back(closeOverlays: false);
+                                        controller.showDialogue(
+                                            item['title'], item['id'],"update");
+                                      },
+                                    ))),
+                                     PopupMenuItem(
+                                        child: (ListTile(
+                                      leading: Icon(Icons.dangerous_outlined),
+                                      title: Text("Delete"),
+                                          onTap: () {
+                                            Get.back();
+                                            controller.showDialogue(
+                                                item['title'], item['id'],"delete");
+                                          },
+                                    )))
+                                  ]),
                         );
-                      }
-                      else if(item['title'].toString().toLowerCase().contains(controller.searchText.value)){
-                        return   ListTile(
+                      } else if (item['title']
+                          .toString()
+                          .toLowerCase()
+                          .contains(controller.searchText.value)) {
+                        return ListTile(
                           title: Text(item['title']),
                           subtitle: Text(item['id']),
+                          trailing: PopupMenuButton(
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                    child: (ListTile(
+                                      leading: const Icon(Icons.edit),
+                                      title: const Text("Edit"),
+                                      onTap: () {
+                                        // Get.back(closeOverlays: false);
+                                        controller.showDialogue(
+                                            item['title'], item['id'],"update");
+                                      },
+                                    ))),
+                                 PopupMenuItem(
+                                    child: (ListTile(
+                                      leading: Icon(Icons.dangerous_outlined),
+                                      title: Text("Delete"),
+                                      onTap: () {
+                                        Get.back(closeOverlays: false);
+                                        controller.showDialogue(
+                                            item['title'], item['id'],"delete");
+                                      },
+                                    )))
+                              ]),
                         );
-                      }
-                      else {
+                      } else {
                         return Container();
                       }
-
                     },
                   ),
                 ),

@@ -15,9 +15,10 @@ class AddPostController extends GetxController {
     textEditingController=TextEditingController();
   }
   void addPost(){
-   databaseRef.child(DateTime.now().microsecond.toString()).set({
+    var id=DateTime.now().microsecond.toString();
+   databaseRef.child(id).set({
      'title':textEditingController.text.toString(),
-      'id': DateTime.now().microsecond.toString()
+      'id': id
    });
   }
 
