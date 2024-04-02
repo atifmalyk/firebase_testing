@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -23,7 +25,6 @@ class UploadImageFirebaseView extends GetView<UploadImageFirebaseController> {
                 controller.getImageFromGallery();
               },
               child: Container(
-                child: controller.image != null ? Image.file(controller.image) : Icon(Icons.photo),
                 height: 200,
                 width: 200,
                 decoration: BoxDecoration(
@@ -32,10 +33,13 @@ class UploadImageFirebaseView extends GetView<UploadImageFirebaseController> {
                     width: 1
                   ),
                 ),
+                child: controller.image != null
+                    ? Image.file(File(controller.imagePath.value))
+                    : Icon(Icons.photo),
               ),
             ),
             ElevatedButton(onPressed: (){
-
+              // controller.uploadImage();
             }, child: Text("Upload Image"))
           ],
         )

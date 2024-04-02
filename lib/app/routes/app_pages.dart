@@ -6,6 +6,8 @@ import '../modules/add_post_firestore/bindings/add_post_firestore_binding.dart';
 import '../modules/add_post_firestore/views/add_post_firestore_view.dart';
 import '../modules/firestore_list_screen/bindings/firestore_list_screen_binding.dart';
 import '../modules/firestore_list_screen/views/firestore_list_screen_view.dart';
+import '../modules/forget_password/bindings/forget_password_binding.dart';
+import '../modules/forget_password/views/forget_password_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -22,7 +24,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.UPLOAD_IMAGE_FIREBASE;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.UPLOAD_IMAGE_FIREBASE,
       page: () => const UploadImageFirebaseView(),
       binding: UploadImageFirebaseBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORGET_PASSWORD,
+      page: () => const ForgetPasswordView(),
+      binding: ForgetPasswordBinding(),
     ),
   ];
 }

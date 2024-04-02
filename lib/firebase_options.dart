@@ -17,24 +17,15 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -52,11 +43,43 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAGcj7xm_Ol-K01YohPRCS_-wFYJ0ab-vE',
+    appId: '1:46415652512:web:f40817d9383d2f18394bc5',
+    messagingSenderId: '46415652512',
+    projectId: 'flutter-demo-44811',
+    authDomain: 'flutter-demo-44811.firebaseapp.com',
+    databaseURL: 'https://flutter-demo-44811-default-rtdb.firebaseio.com',
+    storageBucket: 'flutter-demo-44811.appspot.com',
+    measurementId: 'G-GH29BPCXGW',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB_eg7KsVraqlYO_Im4qfY-YUeCSePoHOs',
     appId: '1:46415652512:android:acac7be38c0c0184394bc5',
     messagingSenderId: '46415652512',
     projectId: 'flutter-demo-44811',
+    databaseURL: 'https://flutter-demo-44811-default-rtdb.firebaseio.com',
     storageBucket: 'flutter-demo-44811.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBdljPSKe1xOtqkIIYx5tiFP2FT5g-gQr8',
+    appId: '1:46415652512:ios:148edd2352d158c2394bc5',
+    messagingSenderId: '46415652512',
+    projectId: 'flutter-demo-44811',
+    databaseURL: 'https://flutter-demo-44811-default-rtdb.firebaseio.com',
+    storageBucket: 'flutter-demo-44811.appspot.com',
+    iosBundleId: 'com.example.firebaseDemo',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBdljPSKe1xOtqkIIYx5tiFP2FT5g-gQr8',
+    appId: '1:46415652512:ios:92ab9460375d8534394bc5',
+    messagingSenderId: '46415652512',
+    projectId: 'flutter-demo-44811',
+    databaseURL: 'https://flutter-demo-44811-default-rtdb.firebaseio.com',
+    storageBucket: 'flutter-demo-44811.appspot.com',
+    iosBundleId: 'com.example.firebaseDemo.RunnerTests',
   );
 }

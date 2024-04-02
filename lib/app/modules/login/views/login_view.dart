@@ -48,6 +48,14 @@ class LoginScreen extends GetView<LoginController> {
                 ),
               ],
             ),
+            SizedBox(height: 20,),
+            InkWell(
+              child: Text("Forget Password ?"),
+              onTap: (){
+                Get.toNamed(Routes.FORGET_PASSWORD);
+
+              },
+            )
           ],
         ),
       ),
