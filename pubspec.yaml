@@ -17,6 +17,8 @@ dependencies:
   cloud_firestore: ^4.15.10
   image_picker: ^1.0.7
   firebase_storage: ^11.6.11
+  firebase_messaging: ^14.8.0
+  app_settings: ^5.1.1
 
 dev_dependencies: 
   flutter_lints: ^2.0.0

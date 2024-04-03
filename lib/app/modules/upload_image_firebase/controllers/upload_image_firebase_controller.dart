@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_demo/app/services/firebase_notifications_service.dart';
 import 'package:firebase_demo/utils/utils.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
@@ -13,7 +14,7 @@ class UploadImageFirebaseController extends GetxController {
   RxString imagePath=''.obs;
   // File? profilePic;
   Rx<File>? profilePic =Rx<File>(File(""));
-
+NotificationServices notificationServices=NotificationServices();
 
 
   FirebaseStorage firebaseStorage =FirebaseStorage.instance;
@@ -21,6 +22,7 @@ class UploadImageFirebaseController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    notificationServices.requestNotificationsPermissions();
   }
 
   getImageFromGallery() async {
@@ -32,7 +34,7 @@ class UploadImageFirebaseController extends GetxController {
     // );
 
     if (image != null) {
-      File convertedFile=File(image!.path);
+      File convertedFile=File(image.path);
       profilePic?.value=convertedFile;
       update(); // Trigger UI update
     } else {
