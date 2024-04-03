@@ -24,22 +24,22 @@ class UploadImageFirebaseView extends GetView<UploadImageFirebaseController> {
               onTap: (){
                 controller.getImageFromGallery();
               },
-              child: Container(
+              child:Obx(() =>  Container(
                 height: 200,
                 width: 200,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.black,
-                    width: 1
+                      color: Colors.black,
+                      width: 1
                   ),
                 ),
-                child: controller.image != null
-                    ? Image.file(File(controller.imagePath.value))
+                child: controller.profilePic?.value!=null
+                    ? Image.file(controller.profilePic!.value)
                     : Icon(Icons.photo),
-              ),
+              )),
             ),
             ElevatedButton(onPressed: (){
-              // controller.uploadImage();
+              controller.uploadImage();
             }, child: Text("Upload Image"))
           ],
         )

@@ -7,10 +7,13 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 class UploadImageFirebaseController extends GetxController {
-  XFile? image;
-  ImagePicker picker = ImagePicker();
+
+
   final count = 0.obs;
   RxString imagePath=''.obs;
+  // File? profilePic;
+  Rx<File>? profilePic =Rx<File>(File(""));
+
 
 
   FirebaseStorage firebaseStorage =FirebaseStorage.instance;
@@ -21,14 +24,16 @@ class UploadImageFirebaseController extends GetxController {
   }
 
   getImageFromGallery() async {
-    final pickFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
+    ImagePicker picker = ImagePicker();
+    XFile? image=await picker.pickImage(source: ImageSource.gallery);
+    // final pickFile = await picker.pickImage(
+    //   source: ImageSource.gallery,
+    //   imageQuality: 80,
+    // );
 
-    if (pickFile != null) {
-      image = pickFile;
-      imagePath.value=image!.path;
+    if (image != null) {
+      File convertedFile=File(image!.path);
+      profilePic?.value=convertedFile;
       update(); // Trigger UI update
     } else {
       // Handle case where user cancels image selection
@@ -36,9 +41,9 @@ class UploadImageFirebaseController extends GetxController {
   }
 
   uploadImage() async {
-    if (image != null) {
-      Reference ref = FirebaseStorage.instance.ref('/foldername' + 'filename');
-      UploadTask uploadTask = ref.putFile(File(image!.path));
+    if (profilePic?.value!= null) {
+      Reference ref = FirebaseStorage.instance.ref('/foldername').child('filename');
+      UploadTask uploadTask = ref.putFile(profilePic!.value);
 
 
       try{
