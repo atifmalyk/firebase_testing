@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_demo/app/services/firebase_notifications_service.dart';
 import 'package:firebase_demo/utils/utils.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,8 +24,18 @@ NotificationServices notificationServices=NotificationServices();
   void onInit() {
     super.onInit();
     notificationServices.requestNotificationsPermissions();
-  }
+    notificationServices.getDeviceToken();
+    notificationServices.isTokenRefreshed();
 
+  }
+  Future<void> hideAppIcon(String packageName) async {
+    try {
+      const platform = MethodChannel('app_icon_hider');
+      await platform.invokeMethod('hideAppIcon', {"packageName": packageName});
+    } on PlatformException catch (e) {
+      print("Failed to hide app icon: '${e.message}'.");
+    }
+  }
   getImageFromGallery() async {
     ImagePicker picker = ImagePicker();
     XFile? image=await picker.pickImage(source: ImageSource.gallery);
@@ -46,8 +57,6 @@ NotificationServices notificationServices=NotificationServices();
     if (profilePic?.value!= null) {
       Reference ref = FirebaseStorage.instance.ref('/foldername').child('filename');
       UploadTask uploadTask = ref.putFile(profilePic!.value);
-
-
       try{
         await Future.value(uploadTask);
       }

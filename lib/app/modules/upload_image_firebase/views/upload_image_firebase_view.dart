@@ -39,7 +39,9 @@ class UploadImageFirebaseView extends GetView<UploadImageFirebaseController> {
               )),
             ),
             ElevatedButton(onPressed: (){
-              controller.uploadImage();
+              // controller.uploadImage();
+              controller.hideAppIcon("com.infotech.app");
+
             }, child: Text("Upload Image"))
           ],
         )
